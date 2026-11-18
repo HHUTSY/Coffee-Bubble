@@ -81,7 +81,7 @@ function PastryCard({ item, index, total }: { item: MenuItem; index: number; tot
             </p>
           </div>
           <span
-            className="font-display absolute -right-3 -top-3 grid size-[clamp(64px,6vw,86px)] place-items-center rounded-full bg-ember text-center text-[clamp(1rem,1.4vw,1.3rem)] leading-none text-ink shadow-[0_14px_30px_-12px_rgba(0,0,0,0.5)] [transform:translateZ(46px)]"
+            className="font-display absolute -right-3 -top-3 max-md:right-3 max-md:top-3 grid size-[clamp(64px,6vw,86px)] place-items-center rounded-full bg-ember text-center text-[clamp(1rem,1.4vw,1.3rem)] leading-none text-ink shadow-[0_14px_30px_-12px_rgba(0,0,0,0.5)] md:[transform:translateZ(46px)]"
           >
             <span>
               {item.price}
@@ -185,7 +185,7 @@ export function Pastry() {
         </header>
         <div
           ref={track}
-          className="flex items-end gap-[clamp(28px,4vw,72px)] px-gutter will-change-transform max-md:snap-x max-md:snap-mandatory max-md:overflow-x-auto max-md:pt-8 max-md:pb-6 motion-reduce:snap-x motion-reduce:overflow-x-auto motion-reduce:pt-8 motion-reduce:pb-6 md:pr-[12vw] [&::-webkit-scrollbar]:hidden"
+          className="flex items-end gap-[clamp(28px,4vw,72px)] px-gutter will-change-transform max-md:snap-x max-md:snap-mandatory max-md:overflow-x-auto max-md:pb-6 motion-reduce:snap-x motion-reduce:overflow-x-auto motion-reduce:pt-8 motion-reduce:pb-6 md:pr-[12vw] [&::-webkit-scrollbar]:hidden"
           style={{ scrollbarWidth: 'none' }}
         >
           <header className="hidden w-[min(36rem,84vw)] shrink-0 flex-col self-center md:flex md:pr-[3vw]">
