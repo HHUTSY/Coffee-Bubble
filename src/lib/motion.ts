@@ -61,3 +61,26 @@ export function onIntro(fn: () => void) {
 }
 
 export const isIntroDone = () => introDone
+
+/**
+ * Has the browser translated the page (Chrome/Edge add `translated-ltr`, and set <html lang>
+ * to the target language, which is never one of ours)?
+ */
+export function isTranslated() {
+  if (typeof document === 'undefined') return false
+  const html = document.documentElement
+  return /\btranslated-(ltr|rtl)\b/.test(html.className) || !/^(cs|en)\b/i.test(html.lang || 'cs')
+}
+
+/** Calls `fn` once when the page gets translated by the browser. */
+export function onTranslate(fn: () => void) {
+  if (typeof MutationObserver === 'undefined') return () => {}
+  const mo = new MutationObserver(() => {
+    if (isTranslated()) {
+      mo.disconnect()
+      fn()
+    }
+  })
+  mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'lang'] })
+  return () => mo.disconnect()
+}

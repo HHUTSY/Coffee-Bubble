@@ -1,6 +1,6 @@
 import { useRef, type ElementType } from 'react'
 import { gsap, SplitText } from '../lib/gsap'
-import { useIsoLayoutEffect, useReducedMotion } from '../lib/motion'
+import { isTranslated, onTranslate, useIsoLayoutEffect, useReducedMotion } from '../lib/motion'
 
 type Props = {
   children: string
@@ -27,12 +27,21 @@ export function RevealLines({ children, as: Tag = 'p', className = '', id, delay
       })
       return () => ctx.revert()
     }
+    // A page translated by the browser (Google Translate etc.) rewrites the text nodes;
+    // splitting it again would fight the translator and make the lines jump. Show plain text.
+    if (isTranslated()) return () => ctx.revert()
     el.style.visibility = 'hidden'
     let alive = true
+    let split: SplitText | null = null
+    const unwatch = onTranslate(() => {
+      split?.revert()
+      split = null
+      el.style.visibility = ''
+    })
     document.fonts.ready.then(() => {
       if (!alive) return
       ctx.add(() => {
-        SplitText.create(el, {
+        split = SplitText.create(el, {
           type: 'lines',
           mask: 'lines',
           aria: 'none',
@@ -54,6 +63,11 @@ export function RevealLines({ children, as: Tag = 'p', className = '', id, delay
               stagger,
               delay,
               scrollTrigger: { trigger: el, start, once: true },
+              // once the lines have landed, give the plain text back (stable for translators, resizes, find-in-page)
+              onComplete: () => {
+                split?.revert()
+                split = null
+              },
             })
           },
         })
@@ -61,6 +75,7 @@ export function RevealLines({ children, as: Tag = 'p', className = '', id, delay
     })
     return () => {
       alive = false
+      unwatch()
       el.style.visibility = ''
       ctx.revert()
     }

@@ -4,7 +4,7 @@ import { useLang } from '../content/i18n'
 import { SITE } from '../content/site'
 import { REVIEWS } from '../content/stories'
 import { gsap, SplitText } from '../lib/gsap'
-import { useIsoLayoutEffect, useReducedMotion } from '../lib/motion'
+import { isTranslated, useIsoLayoutEffect, useReducedMotion } from '../lib/motion'
 import { useSectionTheme } from '../lib/theme'
 import { Magnetic } from '../components/Magnetic'
 
@@ -59,14 +59,21 @@ export function Reviews() {
   useIsoLayoutEffect(() => {
     const el = quoteRef.current
     if (!el) return
-    if (reduced) {
+    if (reduced || isTranslated()) {
       const tw = gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.5 })
       return () => {
         tw.kill()
       }
     }
     const split = SplitText.create(el, { type: 'words', mask: 'words', aria: 'none' })
-    const tw = gsap.from(split.words, { yPercent: 110, rotate: 4, duration: 1.1, stagger: 0.025, ease: 'expo.out' })
+    const tw = gsap.from(split.words, {
+      yPercent: 110,
+      rotate: 4,
+      duration: 1.1,
+      stagger: 0.025,
+      ease: 'expo.out',
+      onComplete: () => split.revert(),
+    })
     return () => {
       tw.kill()
       split.revert()
