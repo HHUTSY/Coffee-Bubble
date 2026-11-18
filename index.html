@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Coffee Bubble — specialty káva a poctivé pečivo · Chomutov</title>
+    <meta
+      name="description"
+      content="Kavárna Coffee Bubble na Žižkově náměstí v Chomutově. Specialty káva, sezónní nápoje a pečivo, které každé ráno vytahujeme z pece. Po–Pá 7:30–19:00, So 8:00–19:00, Ne 9:00–19:00."
+    />
+    <meta name="theme-color" content="#15100C" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph / sociální sítě -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Coffee Bubble" />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta property="og:title" content="Coffee Bubble — káva a pečivo z naší pece · Chomutov" />
+    <meta property="og:description" content="Specialty káva, sezónní nápoje a koláče, které každé ráno vytahujeme z pece. Žižkovo náměstí, Chomutov." />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Tvarohový koláč s jablky na pultu kavárny Coffee Bubble" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Kritické fonty: latin subset display serifu (LCP) -->
+    <link rel="preload" href="/fonts/fraunces-latin-soft-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+    <noscript><style>#static-preloader{display:none}</style></noscript>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CafeOrCoffeeShop",
+        "@id": "%VITE_SITE_URL%/#cafe",
+        "name": "Coffee Bubble",
+        "alternateName": "Coffee Bubble & Foodie Bubble",
+        "description": "Kavárna se specialty kávou, sezónními nápoji a pečivem z vlastní pece na Žižkově náměstí v Chomutově.",
+        "url": "%VITE_SITE_URL%/",
+        "image": ["%VITE_SITE_URL%/images/og-image.jpg", "%VITE_SITE_URL%/images/hero-coffee.jpg"],
+        "logo": "%VITE_SITE_URL%/favicon.svg",
+        "telephone": "+420704444747",
+        "priceRange": "Kč",
+        "currenciesAccepted": "CZK",
+        "servesCuisine": ["Specialty káva", "Pečivo", "Dezerty"],
+        "hasMenu": "%VITE_SITE_URL%/#menu",
+        "acceptsReservations": false,
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Žižkovo nám. 5762",
+          "addressLocality": "Chomutov",
+          "postalCode": "430 01",
+          "addressRegion": "Ústecký kraj",
+          "addressCountry": "CZ"
+        },
+        "geo": { "@type": "GeoCoordinates", "latitude": 50.4608, "longitude": 13.4156974 },
+        "openingHoursSpecification": [
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "07:30", "closes": "19:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "19:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "09:00", "closes": "19:00" }
+        ],
+        "sameAs": ["https://www.instagram.com/coffee_bubble_cz/"]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Přeskočit na obsah</a>
+    <div id="root">
+      <!-- Static first frame of the preloader: paints before JS arrives, React takes over seamlessly. -->
+      <div id="static-preloader" class="fixed inset-0 z-[100] flex items-center justify-center bg-ink text-cream" role="status" aria-label="Vaříme první kávu">
+        <div class="flex flex-col items-center gap-8">
+          <svg viewBox="0 0 120 110" class="w-[clamp(96px,14vw,150px)]" aria-hidden="true">
+            <path d="M18 30h74l-6 52a18 18 0 0 1-18 16H42a18 18 0 0 1-18-16z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+            <path d="M91 42h7a10 10 0 0 1 0 20h-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+            <path d="M40 18c-4-5 4-8 0-13M56 18c-4-5 4-8 0-13M72 18c-4-5 4-8 0-13" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+          <p class="label text-muted-dark">Vaříme první kávu</p>
+        </div>
+        <p class="font-display tabular absolute bottom-[4vh] right-[var(--gutter)] text-[clamp(4rem,14vw,12rem)] text-cream/90" aria-hidden="true">0</p>
+      </div>
+    </div>
+    <noscript>
+      <p style="padding:2rem;font-family:Georgia,serif;color:#F3EADC;background:#15100C">
+        Coffee Bubble · Žižkovo nám. 5762, Chomutov · Po–Pá 7:30–19:00, So 8:00–19:00, Ne 9:00–19:00 ·
+        <a style="color:#E5793A" href="https://www.instagram.com/coffee_bubble_cz/">Instagram</a>
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

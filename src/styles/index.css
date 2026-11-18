@@ -1,0 +1,394 @@
+@import 'tailwindcss';
+@import './fonts.css';
+@import 'lenis/dist/lenis.css';
+
+/* ─────────────────────────────  Design tokens  ───────────────────────────── */
+@theme {
+  --color-ink: #15100c;
+  --color-ink-2: #221812;
+  --color-cream: #f3eadc;
+  --color-flour: #fbf7f0;
+  --color-dough: #eadbc4;
+  --color-latte: #dcc6a8;
+  --color-caramel: #c98a4b;
+  --color-crust: #8c4b1f;
+  --color-ember: #e5793a;
+  --color-bean: #5f6b45;
+  --color-muted-light: #6b5a4c;
+  --color-muted-dark: #b5a593;
+
+  --font-serif: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-cine: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-dough: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --breakpoint-xs: 30rem;
+}
+
+:root {
+  --gutter: clamp(16px, 3vw, 44px);
+  --section-y: clamp(6rem, 14vw, 13rem);
+  --nav-h: 76px;
+  --fs-hero: clamp(4.6rem, 19vw, 22rem);
+  --fs-display: clamp(3rem, 9vw, 9.5rem);
+  --fs-h2: clamp(2.4rem, 5.6vw, 5.5rem);
+  --fs-h3: clamp(1.5rem, 2.4vw, 2.25rem);
+  --fs-lead: clamp(1.12rem, 1.5vw, 1.4rem);
+  color-scheme: dark;
+}
+
+/* ─────────────────────────────  Base  ───────────────────────────── */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: var(--nav-h);
+    background: var(--color-ink);
+  }
+  body {
+    margin: 0;
+    /* transparent so the fixed day-cycle backdrop (z-index -10) shows through; html paints the canvas */
+    background: transparent;
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-ember);
+    color: var(--color-ink);
+  }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ember);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+  button {
+    cursor: pointer;
+  }
+  h1,
+  h2,
+  h3 {
+    font-weight: inherit;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* ─────────────────────────────  Typography helpers  ───────────────────────────── */
+@utility font-display {
+  font-family: var(--font-serif);
+  font-variation-settings: 'SOFT' 100;
+  font-weight: 380;
+  letter-spacing: -0.035em;
+  line-height: 0.86;
+}
+@utility font-display-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: 'SOFT' 100;
+  font-weight: 330;
+  letter-spacing: -0.03em;
+}
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 450;
+}
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+@utility text-hero {
+  font-size: var(--fs-hero);
+}
+@utility text-display {
+  font-size: var(--fs-display);
+}
+@utility text-h2 {
+  font-size: var(--fs-h2);
+}
+@utility text-h3 {
+  font-size: var(--fs-h3);
+}
+@utility text-lead {
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+}
+@utility px-gutter {
+  padding-inline: var(--gutter);
+}
+@utility py-section {
+  padding-block: var(--section-y);
+}
+/* Rows of split text are clipped by their mask while they slide in. */
+@utility line-mask {
+  display: block;
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+
+/* ─────────────────────────────  Global furniture  ───────────────────────────── */
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  z-index: 200;
+  padding: 0.75rem 1.1rem;
+  border-radius: 999px;
+  background: var(--color-ember);
+  color: var(--color-ink);
+  font: 600 0.9rem/1 var(--font-sans);
+  transform: translateY(-160%);
+  transition: transform 0.3s var(--ease-out-expo);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Film grain: one static noise tile, moved in steps (transform only). */
+.grain {
+  position: fixed;
+  inset: -100%;
+  width: 300%;
+  height: 300%;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.11;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.2 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(6) infinite;
+  will-change: transform;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  17% { transform: translate(-3%, 2%); }
+  33% { transform: translate(2%, -4%); }
+  50% { transform: translate(-4%, -1%); }
+  67% { transform: translate(3%, 3%); }
+  83% { transform: translate(-1%, 4%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Custom cursor (desktop, fine pointer only) */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+.cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 150;
+  pointer-events: none;
+}
+.cursor__dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  /* ember core + cream and ink rings: readable on cream, caramel and espresso alike */
+  background: var(--color-ember);
+  box-shadow:
+    0 0 0 1.5px rgba(243, 234, 220, 0.9),
+    0 0 0 3px rgba(21, 16, 12, 0.55);
+  transition: opacity 0.25s, transform 0.35s var(--ease-out-expo);
+}
+.cursor__bubble {
+  position: absolute;
+  width: 96px;
+  height: 96px;
+  margin: -48px 0 0 -48px;
+  border-radius: 50%;
+  background: var(--color-ember);
+  color: var(--color-ink);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font: 500 0.66rem/1.15 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.5s var(--ease-out-expo), opacity 0.3s;
+}
+.cursor.is-active .cursor__bubble {
+  transform: scale(1);
+  opacity: 1;
+}
+.cursor.is-active .cursor__dot {
+  opacity: 0;
+  transform: scale(0.2);
+}
+.cursor.is-link .cursor__dot {
+  transform: scale(2.6);
+  background: rgba(229, 121, 58, 0.35);
+}
+.cursor.is-hidden {
+  opacity: 0;
+}
+
+/* Nav tone follows the day-cycle backdrop */
+.nav {
+  color: var(--color-cream);
+  transition: color 0.5s var(--ease-cine);
+}
+/* Soft scrim behind the nav once you scroll, tinted with whatever is behind it */
+.nav::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 -48px 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--theme-bg, #15100c) 0%,
+    color-mix(in srgb, var(--theme-bg, #15100c) 72%, transparent) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-cine);
+}
+.nav.is-scrolled::before {
+  opacity: 0.92;
+}
+html[data-tone='light'] .nav {
+  color: var(--color-ink);
+  --logo-cut: var(--color-cream);
+}
+
+/* Sound toggle equaliser */
+.sound-bar {
+  animation: sound-bar 0.85s var(--ease-cine) infinite alternate;
+}
+@keyframes sound-bar {
+  from { transform: scaleY(0.25); }
+  to { transform: scaleY(1); }
+}
+
+/* Countdown digits roll in when they change */
+.digit-in {
+  animation: digit-in 0.55s var(--ease-out-expo) both;
+}
+@keyframes digit-in {
+  from { transform: translateY(45%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Oven glow breathes */
+.oven-glow {
+  animation: oven-glow 5.5s ease-in-out infinite alternate;
+}
+@keyframes oven-glow {
+  from { opacity: 0.55; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1.04); }
+}
+
+/* Review autoplay progress */
+@keyframes review-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Rotating badge ring */
+.spin-slow {
+  animation: spin-slow 28s linear infinite;
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+/*
+ * Each section carries its own colour (so text never sits on the wrong background,
+ * even mid-transition or without JS), but its top and bottom edges fade to transparent:
+ * there the fixed day-cycle backdrop shows through and the colours melt into each other.
+ */
+@layer components {
+.sec {
+  --fade: clamp(56px, 11vh, 130px);
+  background: linear-gradient(
+    180deg,
+    transparent 0,
+    var(--sec-bg) var(--fade),
+    var(--sec-bg) calc(100% - var(--fade)),
+    transparent 100%
+  );
+}
+.sec-top {
+  background: linear-gradient(180deg, var(--sec-bg) 0, var(--sec-bg) calc(100% - var(--fade, 110px)), transparent 100%);
+}
+.sec-solid {
+  background: var(--sec-bg);
+}
+}
+
+/* Hero geometry: the two words and the window are placed from a few shared measures */
+.hero {
+  --hero-fs: min(24vw, 13svh);
+  --arch-w: min(62vw, 32svh);
+  --line1-top: calc(var(--nav-h) + 2vh);
+  --arch-top: calc(var(--line1-top) + var(--hero-fs) * 0.8);
+  --line2-top: calc(var(--arch-top) + var(--arch-w) * 1.367 - var(--hero-fs) * 0.2);
+  --kicker-top: calc(var(--line1-top) + var(--hero-fs) * 0.98);
+}
+@media (min-width: 768px) {
+  .hero {
+    --hero-fs: min(var(--fs-hero), 31svh);
+    --arch-w: min(25vw, 37svh);
+    --arch-top: calc(var(--line1-top) + var(--hero-fs) * 0.55);
+  }
+}
+
+/* Arch frame (bakery window) */
+.arch {
+  border-radius: 999px 999px 18px 18px;
+}
+
+/* Hover-capable affordances */
+@media (hover: hover) {
+  .link-underline {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 0.5s var(--ease-out-expo);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* ─────────────────────────────  Reduced motion  ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+  .grain {
+    animation: none;
+  }
+}
