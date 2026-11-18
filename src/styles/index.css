@@ -201,16 +201,17 @@ html.has-cursor * {
 }
 .cursor__dot {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  margin: -6px 0 0 -6px;
-  border-radius: 50%;
-  /* ember core + cream and ink rings: readable on cream, caramel and espresso alike */
-  background: var(--color-ember);
-  box-shadow:
-    0 0 0 1.5px rgba(243, 234, 220, 0.9),
-    0 0 0 3px rgba(21, 16, 12, 0.55);
-  transition: opacity 0.25s, transform 0.35s var(--ease-out-expo);
+  width: 18px;
+  height: 24px;
+  margin: -12px 0 0 -9px;
+  transform: rotate(-32deg);
+  /* cream outline in the SVG + soft dark halo: readable on cream, caramel and espresso alike */
+  filter: drop-shadow(0 1px 2px rgba(21, 16, 12, 0.55));
+  transition: opacity 0.25s, transform 0.45s var(--ease-out-expo);
+}
+.cursor__dot svg {
+  display: block;
+  overflow: visible;
 }
 .cursor__bubble {
   position: absolute;
@@ -236,11 +237,10 @@ html.has-cursor * {
 }
 .cursor.is-active .cursor__dot {
   opacity: 0;
-  transform: scale(0.2);
+  transform: rotate(-32deg) scale(0.2);
 }
 .cursor.is-link .cursor__dot {
-  transform: scale(2.6);
-  background: rgba(229, 121, 58, 0.35);
+  transform: rotate(28deg) scale(1.45);
 }
 .cursor.is-hidden {
   opacity: 0;

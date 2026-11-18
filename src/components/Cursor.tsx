@@ -5,7 +5,7 @@ import { useFinePointer, useReducedMotion } from '../lib/motion'
 const INTERACTIVE = '[data-cursor], a, button, [role="button"], summary, label, input, select, textarea'
 
 /**
- * Small dot that follows the pointer; over anything with `data-cursor="Text"`
+ * Small coffee bean that follows the pointer; over anything with `data-cursor="Text"`
  * it grows into an ember bubble with that text. Desktop + fine pointer only.
  */
 export function Cursor() {
@@ -67,7 +67,21 @@ export function Cursor() {
   if (!enabled) return null
   return (
     <div ref={ref} className="cursor is-hidden" aria-hidden>
-      <span className="cursor__dot" />
+      <span className="cursor__dot">
+        {/* coffee bean: roasted body, cream outline (readable on light sections), centre crease */}
+        <svg viewBox="0 0 24 32" width="100%" height="100%">
+          <defs>
+            <radialGradient id="cursor-bean" cx="38%" cy="30%" r="75%">
+              <stop offset="0" stopColor="#b8703a" />
+              <stop offset="0.55" stopColor="#7a3f19" />
+              <stop offset="1" stopColor="#3d1f0e" />
+            </radialGradient>
+          </defs>
+          <ellipse cx="12" cy="16" rx="10" ry="14" fill="url(#cursor-bean)" stroke="#f3eadc" strokeWidth="1.6" />
+          <path d="M12.6 3.2C8.4 8 15.6 12.5 12 16s-3.6 8.6.6 12.8" fill="none" stroke="#2a150a" strokeWidth="1.9" strokeLinecap="round" />
+          <ellipse cx="8" cy="10" rx="2" ry="3.6" fill="#f3eadc" opacity=".22" transform="rotate(20 8 10)" />
+        </svg>
+      </span>
       <span className="cursor__bubble">{label}</span>
     </div>
   )
